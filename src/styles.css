@@ -1,1 +1,256 @@
 /* You can add global styles to this file, and also import other style files */
+.center-btn{
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.modal-body{
+  padding: 0 !important;
+}
+
+.custom-close {
+  font-weight: 800;
+  border-left: 2px solid lightgray !important;
+}
+
+.custom-modal-title {
+  font-weight: bold;
+  width:100%;
+  color: purple;
+  text-align: center;
+  font-size:larger;
+}
+
+.custom-header{
+  border-bottom: 1px solid lightgray;
+}
+
+.custom-subheader{
+  border-bottom: 1px solid lightgray;
+  text-align: center;
+}
+
+.sub-payment{
+  cursor: pointer;
+  padding-bottom: 10px;
+  padding-top: 10px;
+  color: purple;
+}
+
+
+.inactive{
+  color: darkgray !important;
+  background-color: lightgray;
+}
+
+.container-value{
+  padding-bottom: 5px;
+  padding-top: 40px;
+}
+
+.currency{
+  color: #6b6262;
+  font-weight: 500;
+  margin-top: 30px;
+  text-align: right;
+  margin-right: -35px;
+}
+
+.integer{
+  font-size: 80px;
+  font-weight: 600;
+  color: purple;
+  text-align: center;
+}
+
+.subcontainer-value{
+  text-align: left;
+  margin-top: 16px;
+  margin-left: -30px;
+
+}
+
+.decimal{
+  color: purple;
+  font-weight: 700;
+  font-size: 40px;
+}
+
+.periodicy{
+  color: #f34e6b;
+  font-weight: 600;
+  font-size: 20px;
+}
+
+.total-label{
+  color: #6b6262;
+  font-weight: 500;
+  font-size: 15px;
+  text-align: center;
+}
+
+.dotted {
+  border-top: 1px  dotted lightgray;
+}
+
+.paymentTypes{
+  padding-top: 3px;
+  color: #6b6262;
+  font-size: 13px;
+}
+
+.colorPayment {
+  color: purple;
+  font-weight: 700;
+}
+
+.container-plan{
+  padding-top: 40px;
+}
+
+.label-plan{
+  font-size: 20px;
+  font-weight: 700;
+}
+.sublabel-plan{
+  padding-top: 5px;
+  text-align: right;
+  font-size: 15px;
+}
+
+.select-plan {
+  cursor: pointer;
+  padding: 10px 10px 10px 10px;
+  position: relative;
+  border: 1px solid #6b6262;
+  border-radius: 5px;
+  color: purple;
+}
+
+.colorDiscount {
+  color: #2dcea9;
+  font-weight: 700;
+}
+
+.select-plan:hover {
+  cursor: pointer;
+  color: purple !important;
+  border: 1px solid purple;
+  background: #e4c0e4;
+}
+
+.select-plan:hover .colorDiscount {
+  color: purple !important;
+}
+
+
+.plan-selected {
+  cursor: pointer;
+  color: white !important;
+  position: relative;
+  background: purple;
+  border: 1px solid purple;
+}
+
+.plan-selected .colorDiscount{
+  color: white;
+}
+
+.plan-selected:after, .plan-selected:before {
+  right: 100%;
+  top: 50%;
+  border: solid transparent;
+  content: " ";
+  height: 0;
+  width: 0;
+  position: absolute;
+  pointer-events: none;
+}
+
+.plan-selected:after {
+  border-color: rgba(145, 6, 132, 0);
+  border-right-color: purple;
+  border-width: 10px;
+  margin-top: -10px;
+}
+.plan-selected:before {
+  border-color: rgba(123, 143, 156, 0);
+  border-right-color: purple;
+  border-width: 10px;
+  margin-top: -10px;
+}
+
+
+.btn-custom-modal {
+  width: 100%;
+  color: white;
+  padding-bottom: 10px;
+  padding-top: 10px;
+  font-weight: 700;
+  background-color: #2dcea9 !important;
+  border-color: #12b18c !important;
+}
+
+.container-payment{
+  padding-bottom: 40px;
+}
+
+.custom-form-label {
+  color: #6b6262;
+  font-size: 15px;
+}
+
+.header-payment{
+  color: #6b6262;
+  font-size: 15px;
+  padding-bottom: 15px;
+}
+
+.price-payment {
+  font-weight: 600;
+  color: black;
+}
+
+.privacy-warning {
+  background: #ffffd5;
+  border: 1px solid yellow;
+  color: #d2710e;
+  font-weight: 500;
+  font-size: 13px;
+  text-align: center;
+  padding-bottom: 10px;
+  padding-top: 10px;
+}
+
+.container-final{
+  padding-top: 50px;
+  padding-bottom: 40px;
+  text-align: center;
+}
+
+.confirm-img {
+  width: 100px;
+  height: 100px;
+}
+
+.custom-final {
+  color: #6b6262;
+  font-size: 30px;
+}
+
+.bold {
+  font-weight: 600;
+}
+
+.btn-custom-final {
+  width: 30%;
+  color: white;
+  padding-bottom: 10px;
+  padding-top: 10px;
+  font-weight: 700;
+  background-color: purple !important;
+  border-color: purple !important;
+}

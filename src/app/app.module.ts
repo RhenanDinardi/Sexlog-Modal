@@ -1,10 +1,20 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-
-import { ToastrModule } from 'ngx-toastr';
-
+import { FormsModule } from '@angular/forms';
+import { HttpModule } from '@angular/http';
 
 import { AppComponent } from './app.component';
+
+// componente de notificaçao
+import {ToastModule, ToastOptions } from 'ng2-toastr/ng2-toastr';
+import { CustomOption } from './custom-options';
+
+// mascara de campos
+import { TextMaskModule } from 'angular2-text-mask';
+
+// animaçoes
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+
 
 @NgModule({
   declarations: [
@@ -12,15 +22,13 @@ import { AppComponent } from './app.component';
   ],
   imports: [
     BrowserModule,
-    ToastrModule.forRoot({
-      timeOut: 3000,
-      progressBar: true,
-      maxOpened: 4,
-      autoDismiss: true,
-      positionClass: 'toast-bottom-full-width'
-    })
+    BrowserAnimationsModule,
+    FormsModule,
+    HttpModule,
+    TextMaskModule,
+    ToastModule.forRoot()
   ],
-  providers: [],
+  providers: [{provide: ToastOptions, useClass: CustomOption}],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

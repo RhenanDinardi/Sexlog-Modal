@@ -1,8 +1,12 @@
 <div class="wrapper">
 
     <div class="container">
-      <div class="row">
-        <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bd-example-modal-lg">Formas de pagamento</button>
+      <div class="row center-btn">
+        <button type="button"
+                class="btn btn-primary"
+                data-toggle="modal"
+                [disabled]="!allowForm"
+                data-target=".bd-example-modal-lg">{{buttonText}}</button>
       </div>
     </div>
 </div>
@@ -10,25 +14,222 @@
 
 <! -- MODAL -->
 <div class="modal fade bd-example-modal-lg" id="modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog bd-example-modal-lg" role="document">
+  <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">New message</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+      <div class="modal-header custom-header">
+        <div class="custom-modal-title">
+          Assine Sexlog VIP
+        </div>
+        <button type="button" class="close custom-close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">
-        <form>
-          <div class="form-group" *ngFor="let plan of data.plans">
-            <label class="col-form-label">{{plan.nome}}</label>
-            <p>{{plan.total}}</p>
+        <div class="container-fluid">
+          <div class="row custom-subheader" *ngIf="selectedView !== 'final'">
+            <div class="col-md-6 sub-payment"
+                 (click)="changeView('plans')"
+                 [ngClass]="{'inactive': selectedView === 'payment'}">Escolha o plano ideal para você</div>
+            <div class="col-md-6 sub-payment"
+                 (click)="changeView('payment')"
+                 [ngClass]="{'inactive': selectedView === 'plans'}">Escolha a forma de pagamento</div>
           </div>
-        </form>
+
+          <!-- ESCOLHA DE FORMA DE PAGAMENTO -->
+          <div class="row" *ngIf="selectedView === 'plans'">
+            <div class="col-md-6">
+              <div class="col-md-12 text-center container-value">
+                <div class="row text-center">
+                  <div class="col-md currency">
+                    <div>{{selectedPlan.price.currency}}</div>
+                  </div>
+                  <div class="col-md">
+                    <div class="integer">{{selectedPlan.price.integer}}</div>
+                  </div>
+                  <div class="col-md subcontainer-value">
+                    <div class="decimal">{{selectedPlan.price.decimal}}</div>
+                    <div class="periodicy">{{selectedPlan.price.periodicy}}</div>
+                  </div>
+                </div>
+                <div class="row text-center">
+                  <div class="col-md-2"></div>
+                  <div class="col-md-8 total-label" *ngIf="selectedPlan.price.parcel != 1">
+                    Total: <span class="colorPayment">{{selectedPlan.price.currency}} {{selectedPlan.price.customTotal}}</span> em até {{selectedPlan.price.parcel}}x iguais no cartão de crédito
+                  </div>
+                  <div class="col-md-2"></div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-2"></div>
+                <div class="col-md-8 text-center dotted">
+                  <div *ngFor="let paymentType of selectedPlan.payments, let i = index" [attr.data-index]="i">
+                    <div class="row">
+                      <div class="col-md-1">
+                        <img *ngIf="i == 0" src="assets/img/icon-credit-card.svg">
+                        <img  *ngIf="i == 1" src="assets/img/icon-debit.svg">
+                        <img  *ngIf="i == 2" src="assets/img/icon-boleto.svg">
+                      </div>
+                      <div class="col-md-auto paymentTypes">
+                        <div [innerHTML]="paymentType"></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-2"></div>
+              </div>
+            </div>
+            <div class="col-md-6">
+
+              <div class="col-md-12 container-plan">
+                <div class="form-group" *ngFor="let plan of data.plans, let i = index" [attr.data-index]="i">
+
+                  <div class="select-plan"
+                       [ngClass]="{'plan-selected': selectedPlan === plan}"
+                       (click)="setPlan(plan)">
+                    <div class="row">
+                      <div class="col-md-7">
+                        <div class="form-check">
+                          <label class="form-check-label label-plan" style="cursor: pointer;">
+                            <input class="form-check-input"
+                                   type="radio"
+                                   [value]="plan"
+                                   name="{{'playOption' + i}}"
+                                   [(ngModel)]="selectedPlan">
+                            {{plan.name}}
+                          </label>
+                        </div>
+                      </div>
+                      <div class="col-md-5 sublabel-plan">
+                        {{plan.discount.substr(0,9)}} <span class="colorDiscount">{{plan.discount.substr(10,3)}}</span>
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- PAGAMENTO -->
+          <div class="row container-payment" *ngIf="selectedView === 'payment'">
+            <div class="col-md-2"></div>
+            <div class="col-md-8 container-value">
+              <div class="row header-payment">
+                Plano Escolhido: <span class="price-payment"> {{selectedPlan.name + ' - ' + selectedPlan.price.currency + selectedPlan.price.customTotal}}</span>
+              </div>
+
+                <div class="row dotted">
+                  <div class="col-md-8">
+                    <div class="form-group">
+                      <label for="card-number" class="col-form-label custom-form-label">Número do cartão</label>
+                      <input type="text"
+                             name="cardNumber"
+                             class="form-control"
+                             placeholder="Número do cartão"
+                             [textMask]="{mask: maskCard}"
+                             [(ngModel)]="form.cardNumber"
+                             id="card-number">
+                    </div>
+                  </div>
+                  <div class="col-md-4">
+                    <div class="form-group">
+                      <label class="col-form-label custom-form-label">Validade</label>
+                      <div class="input-group">
+                      <input type="text"
+                             name="month"
+                             class="form-control"
+                             [textMask]="{mask: maskTwoDigits}"
+                             [(ngModel)]="form.month"
+                             placeholder="Mês">
+                      <input type="text"
+                             name="year"
+                             class="form-control"
+                             [textMask]="{mask: maskTwoDigits}"
+                             [(ngModel)]="form.year"
+                             placeholder="Ano">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-8">
+                      <div class="form-group">
+                        <label for="card-name" class="col-form-label custom-form-label">Nome do Titular</label>
+                        <input type="text"
+                               class="form-control"
+                               name="name"
+                               placeholder="Nome do Titular"
+                               [(ngModel)]="form.name"
+                               id="card-name">
+                      </div>
+                    </div>
+                    <div class="col-md-4">
+                      <div class="form-group">
+                        <label for="card-code" class="col-form-label custom-form-label">Código de segurança</label>
+                        <input type="text"
+                               class="form-control"
+                               placeholder="000"
+                               name="cardCode"
+                               [textMask]="{mask: maskCardCode}"
+                               [(ngModel)]="form.cardCode"
+                               id="card-code">
+                      </div>
+                    </div>
+                </div>
+
+              <div class="row">
+                <div class="col-md-12 privacy-warning">
+                  Para sua privacidade, a cobrança será feita em nome de "assinet-pgto-sl".
+                </div>
+              </div>
+
+
+            </div>
+            <div class="col-md-2"></div>
+          </div>
+
+          <!-- FINALIZAÇAO -->
+          <div class="row container-payment" *ngIf="selectedView === 'final'">
+            <div class="col-md-12 container-final">
+              <div class="row">
+                <div class="col-md-12">
+                  <img class="confirm-img" src="assets/img/green.png">
+                </div>
+                <div class="col-md-12 custom-final bold">
+                  Parabens!
+                </div>
+                <div class="col-md-12 custom-final">
+                  Você agora é um assinante Sexlog!
+                </div>
+                <div class="col-md-12" style="padding-top: 30px;">
+                  <a type="button"
+                          class="btn btn-primary btn-custom-final"
+                          href="https://www.sexlog.com/">Explorar o Sexlog</a>
+                </div>
+              </div>
+            </div>
+
+        </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Send message</button>
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-md-6"  *ngIf="selectedView !== 'final'">
+              <img src="assets/img/icon-secure.png">
+            </div>
+            <div class="col-md-6">
+              <button type="button"
+                      class="btn btn-primary btn-custom-modal"
+                      *ngIf="selectedView === 'plans'"
+                      (click)="changeView('payment')">Próximo passo: pagamento</button>
+              <button type="button"
+                      class="btn btn-primary btn-custom-modal"
+                      *ngIf="selectedView === 'payment'"
+                      (click)="validateForm()">Concluir minha assinatura</button>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
