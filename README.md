@@ -1,6 +1,8 @@
-#Teste Modal para Sexlog
+# Teste Modal para Sexlog
 
+Projeto gerado com Angular CLI e angular 4, boostrap e lib externa de notificação e máscara de documento (ng2-toastr e angular2-text-mask).
 
+Para executar e gerar projeto, sigua as instruções abaixo do Angular CLI documentation.
 
 # Modal
 
